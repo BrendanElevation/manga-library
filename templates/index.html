@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='animelogo.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <title>Welcome To Anime World</title>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <a href="#top" class="logo">
+                <img src="{{ url_for('static', filename='Animelogo.png') }}" alt="Anime World Logo">
+            </a>
+        </div>
+
+        <div class="nav-right">
+            <a class="pop-hover" href="#about">About</a>
+            <a class="pop-hover" href="#products">Products</a>
+            <a class="pop-hover" href="#hours">Hours</a>
+            <a class="pop-hover" href="#corporate">Corporate Information</a>
+            <a class="pop-hover" href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <a id="top"></a>
+
+    <section class="snap-pop" id="about">
+        <h1>About Us</h1>
+        <p>Welcome to AnimeWorld — your gateway to all things anime.</p>
+        <p>We’re a young, energetic company stepping onto the world stage with a mission to bring fans closer to the stories, art, and culture they love. Even though we’re competing with bigger brands, our passion and creativity drive us to deliver something special.</p>
+
+        <p>To celebrate our first year online, we’re launching a set of exclusive anniversary promotions available right here on our new website. This single‑page experience is designed to be simple, bold, and easy to use on any device — whether you’re browsing on desktop or mobile.</p>
+
+        <p>As we continue to grow, AnimeWorld plans to expand our catalog and make all of our products available for online ordering. For now, we invite you to explore our anniversary deals, learn more about who we are, and enjoy the start of our journey into the anime universe.</p>
+    </section>
+
+    <section class="snap-pop" id="products">
+        <h1>Products</h1>
+
+        <section class="snap-pop" id="products">
+
+            <!-- ADDED: id="placeOrderForm" -->
+            <form id="placeOrderForm" action="http://127.0.0.1:5055/order/insert" method="post">
+
+                <div class="product-grid">
+
+                    {% for i in range(0, productLength) %}
+                    <label class="product-card selectable">
+                        <input type="radio" name="productOrdered" value="{{ productsByID[i] }}">
+                        <img src="/static/img/{{ productsByImage[i] }}" alt="{{ productsByName[i] }} cover">
+                        <h2>{{ productsByName[i] }}</h2>
+                        <p>{{ productsByName[i] }} — special anniversary item.</p>
+                        <p class="price">${{ productByPrice[i] }} USD</p>
+                    </label>
+                    {% endfor %}
+
+                    <div class="product-card order-card">
+                        <h2>Place Your Order</h2>
+
+                        <fieldset>
+                            <legend>Shipping Address</legend>
+                            <table>
+                                <tr><td>Name</td><td><input type="text" name="customerName"></td></tr>
+                                <tr><td>Shipping Address</td><td><input type="text" name="shippingAddress"></td></tr>
+                                <tr><td>City</td><td><input type="text" name="city"></td></tr>
+                                <tr><td>Country</td><td><input type="text" name="country"></td></tr>
+
+                                <tr>
+                                    <td>Region</td>
+                                    <td>
+                                        <select name="region">
+                                            <option value="1">North America</option>
+                                            <option value="2">Central America</option>
+                                            <option value="3">Asia</option>
+                                            <option value="4">European Union</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+
+                    </div>
+
+                </div>
+
+                <!-- ADDED: id="btnSubmit" -->
+                <input type="submit" value="Place Order" id="btnSubmit" name="btnSubmit">
+
+                <!-- ADDED: result box -->
+                <div id="result">Order Status</div>
+
+            </form>
+
+        </section>
+    </section>
+
+    <section class="snap-pop" id="hours">
+        <h1>Hours Of Operation</h1>
+        <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+        <p>Saturday: 10:00 AM - 4:00 PM</p>
+        <p>Sunday: Closed</p>
+    </section>
+
+    <section class="snap-pop" id="corporate">
+        <h1>Corporate Information</h1>
+        <p>Anime World Inc.</p>
+        <p>123 Anime Street</p>
+    </section>
+
+    <section class="snap-pop" id="contact">
+        <h1>Contact Us</h1>
+        <p>Email:
+            <a href="mailto:info@animeworld.com">info@animeworld.com</a>
+        </p>
+    </section>
+
+    <!-- AJAX script -->
+    <script>
+        $(document).ready(function () {
+
+            $('#btnSubmit').click(function (event) {
+                event.preventDefault();  // prevents page reload
+
+                var form = $('#placeOrderForm')[0];
+                var data = new FormData(form);
+
+                $.ajax({
+                    type: 'POST',
+                    enctype: 'multipart/form-data',
+                    url: 'http://127.0.0.1:5055/order/insert',
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    timeout: 800000,
+                    success: function (data) {
+                        $('#result').text(data);  // show message on same page
+                    },
+                    error: function (err) {
+                        $('#result').text("Something went wrong");
+                    }
+                });
+            });
+
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Form</title>
+</head>
+<body>
+
+<form action="http://127.0.0.1:5055/order/insert" method="post" id="placeOrderForm">
+
+    <fieldset>
+        <legend>Shipping Address</legend>
+        <table>
+            <tr>
+                <td>Name</td>
+                <td><input type="text" id="customerName" name="CustomerName"></td>
+            </tr>
+            <tr>
+                <td>Shipping Address</td>
+                <td><input type="text" id="shippingAddress" name="shippingAddress"></td>
+            </tr>
+            <tr>
+                <td>City</td>
+                <td><input type="text" id="city" name="city"></td>
+            </tr>
+            <tr>
+                <td>Country</td>
+                <td><input type="text" id="country" name="country"></td>
+            </tr>
+            <tr>
+                <td>Region</td>
+                <td><input type="text" id="region" name="region"></td>
+            </tr>
+        </table>
+    </fieldset>
+
+    <fieldset>
+        <legend>Product Ordered</legend>
+        <table>
+            <tr>
+                <td><input type="radio" name="productOrdered" value="1"> Anniversary Anime Package</td>
+                <td><input type="radio" name="productOrdered" value="2"> Comic Book Package</td>
+                <td><input type="radio" name="productOrdered" value="3"> Deluxe Package</td>
+                <td><input type="radio" name="productOrdered" value="4"> Anniversary Comic Book</td>
+                <td><input type="radio" name="productOrdered" value="5"> Mystery Package</td>
+            </tr>
+        </table>
+    </fieldset>
+
+    <input type="submit" value="Place Order">
+
+</form>
+
+</body>
+</html>
